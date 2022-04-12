@@ -1,10 +1,16 @@
 package chap11;
 
+import sun.security.action.GetBooleanAction;
+
 public class Car {
 	private String model;
 	private int price;
 	private boolean available;
-
+	
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+	
 	public String getModel() {
 		return model;
 	}
