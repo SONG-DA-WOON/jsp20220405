@@ -16,13 +16,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:if test="true">
-		<div>hello</div>
-	</c:if>
-	 
-	<my:mytag8>
-		<div>spring</div>
-	</my:mytag8>
+	<%
+	pageContext.setAttribute("pageAttr1","pageVal1");
+	request.setAttribute("reqAttr1", "reqVal1");
+	session.setAttribute("sessAttr1", "sessVal1");
+	application.setAttribute("appAttr1", "appVal1");
+	%>
+
+	<my:mytag9></my:mytag9>
 	
 </body>
 </html>
