@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="java.util.*" %>
-<% request.setCharacterEncoding("utf-8"); %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +14,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>${myName }님 반갑습니다.</h1>
-	<h1>나이는 ${age }살 입니다.</h1>
+	<form action="${pageContext.request.contextPath }/s5/servlet01" method="post">
+		이름:<input type="text" name="name" /> <br />
+		주소:<input type="text" name="address" /> <br />
+		<input type="submit" value="등록" />
+	</form>
+	
+	<hr />
+	
+	<form action="${pageContext.request.contextPath }/s5/servlet02" method="post">
+		별명:<input type="text" name="nickName" />
+		노래:<input type="text" name="song" />
+		<input type="submit" value="전송" />
+	</form>
 </body>
-</html>                              
+</html>
