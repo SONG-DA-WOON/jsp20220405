@@ -39,16 +39,15 @@ public class Filter05 implements Filter {
 		
 		// 세션에 loggedInUser가 있으면 로그인된 상태
 		boolean loggedIn = false;
-		
 		HttpServletRequest req = (HttpServletRequest) request;
-		HttpSession session = ((HttpServletRequest)request).getSession();
+		HttpSession session = req.getSession();
 		loggedIn = session.getAttribute("loggedInUser") != null;
 		
-		if(loggedIn) {
-			// 로그인이 되어있으면 다음 필터(서블릿)이 일하고
+		if (loggedIn) {
+			// 로그인이 되어있으면 다음 필터(서블릿)이 일하고 
 			chain.doFilter(request, response);
 		} else {
-			// 로그아웃 상태이면 로그인폼 화면으로 이동
+			// 로그아웃상태면 로그인폼 화면으로 이동
 			((HttpServletResponse) response).sendRedirect(req.getContextPath() + "/chap19/ex02.jsp");
 		}
 	}
