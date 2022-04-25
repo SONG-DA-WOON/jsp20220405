@@ -2,8 +2,8 @@ package chap14;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,19 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import chap14.javaBeans.Customer;
-
 /**
- * Servlet implementation class S14Servlet11
+ * Servlet implementation class S14Servlet12
  */
-@WebServlet("/S14Servlet11")
-public class S14Servlet11 extends HttpServlet {
+@WebServlet("/S14Servlet12")
+public class S14Servlet12 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public S14Servlet11() {
+	public S14Servlet12() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -38,39 +36,44 @@ public class S14Servlet11 extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String sql = "SELECT CustomerName, Country, City, PostalCode FROM Customers WHERE City = ?";
-		List<Customer> list = new ArrayList<>();
+		List<String> list1 = new ArrayList<>();
+		List<String> list2 = new ArrayList<>();
+
+		String sql1 = "SELECT DISTINCT Country FROM Customers ORDER BY Country";
+		String sql2 = "SELECT DISTINCT City FROM Customers ORDER BY City";
+
 		ServletContext application = getServletContext();
 		DataSource ds = (DataSource) application.getAttribute("dbpool");
 
-		String param = request.getParameter("city");	
-		
 		try (Connection con = ds.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(sql);) {
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery(sql1);) {
 
-			pstmt.setString(1, param);
-
-			try (ResultSet rs = pstmt.executeQuery()) {
-
-				while (rs.next()) {
-					Customer c = new Customer();
-					c.setName(rs.getString(1));
-					c.setCountry(rs.getString(2));
-					c.setCity(rs.getString(3));
-					c.setPostCode(rs.getString(4));
-
-					list.add(c);
-
-				}
+			while (rs.next()) {
+				list1.add(rs.getString(1));
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		try (Connection con = ds.getConnection();
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery(sql2);) {
 
-		String path = "/WEB-INF/view/chap14/ex05.jsp";
+			while (rs.next()) {
+				list2.add(rs.getString(1));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		request.setAttribute("countryList", list1);
+		request.setAttribute("cityList", list2);
+
+		String path = "/WEB-INF/view/chap14/ex07.jsp";
 		request.getRequestDispatcher(path).forward(request, response);
-
 	}
 
 	/**
