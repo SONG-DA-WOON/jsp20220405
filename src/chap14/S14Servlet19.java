@@ -71,7 +71,7 @@ public class S14Servlet19 extends HttpServlet {
 				
 				while (rs.next()) {
 					Customer cus = new Customer();
-					cus.setId(rs.getInt(1));
+					cus.setId(rs.getInt(1));  
 					cus.setName(rs.getString(2));
 					cus.setCity(rs.getString(3));
 					cus.setCountry(rs.getString(4));
