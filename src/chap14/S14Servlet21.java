@@ -55,7 +55,7 @@ public class S14Servlet21 extends HttpServlet {
 
 		ServletContext application = getServletContext();
 		DataSource ds = (DataSource) application.getAttribute("dbpool");
-		List<Employee> list = new ArrayList<>();
+		List<Employee> list   = new ArrayList<>();
 
 		try (Connection con = ds.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql);) {
