@@ -24,6 +24,10 @@
 	<c:if test="${3 > 0 }">
 		<h1>html contents....</h1>
 	</c:if>
+	
+	<c:if test="true">
+		<p>hello</p>
+		</c:if>
 
 	<%
 		if (3 > 0) {
