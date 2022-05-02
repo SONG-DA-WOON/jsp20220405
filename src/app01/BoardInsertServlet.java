@@ -65,7 +65,7 @@ public class BoardInsertServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		String path= request.getContextPath() + "/board/insert";
+		String path= request.getContextPath() + "/board/get?id=" + dto.getId();
 		response.sendRedirect(path);
 		
 		
