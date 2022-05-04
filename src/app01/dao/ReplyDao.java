@@ -3,6 +3,7 @@ package app01.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,24 +39,24 @@ public class ReplyDao {
 				+ "FROM Reply "
 				+ "WHERE board_id = ? "
 				+ "ORDER BY id ";
-		
+
 		List<ReplyDto> list = new ArrayList<>();
-		try(PreparedStatement pstmt = con.prepareStatement(sql)) {
-			
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+
 			pstmt.setInt(1, boardId);
-			
-			try(ResultSet rs = pstmt.executeQuery()) {
-				while(rs.next()) {
+
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
 					ReplyDto r = new ReplyDto();
 					r.setId(rs.getInt("id"));
 					r.setBoardId(rs.getInt("board_id"));
 					r.setContent(rs.getString("content"));
 					r.setInserted(rs.getTimestamp("inserted").toLocalDateTime());
-					
+
 					list.add(r);
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
@@ -65,34 +66,47 @@ public class ReplyDao {
 		String sql = "UPDATE Reply "
 				+ "SET content = ? "
 				+ "WHERE id = ? ";
-		
-		try(PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 			pstmt.setString(1, dto.getContent());
 			pstmt.setInt(2, dto.getId());
-			
+
 			int cnt = pstmt.executeUpdate();
-			
+
 			return cnt == 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 
+
 		return false;
 	}
 
 	public boolean delete(Connection con, int id) {
 		String sql = "DELETE FROM Reply WHERE id = ? ";
-				
-		try(PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 			pstmt.setInt(1, id);
-			
+
 			int cnt = pstmt.executeUpdate();
 			return cnt == 1;
-			
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public void deleteByBoardId(Connection con, int id) throws SQLException {
+		String sql = "DELETE FROM Reply "
+				+ "WHERE board_id = ? ";
+
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, id);
+
+		pstmt.executeUpdate();
+
+		pstmt.close();
+
 	}
 
 }
