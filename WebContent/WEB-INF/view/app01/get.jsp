@@ -40,8 +40,7 @@
 			
 		});
 		
-		// reply-edit-toggle 버튼 클릭시 댓글 보여주는 div 숨기고,
-		// 수정 form 보여주기
+		
 		$(".reply-edit-toggle-button").click(function() {
 			console.log("버튼클릭");
 			const replyId = $(this).attr("data-reply-id");
@@ -56,7 +55,6 @@
 			$(editFormId).show();
 		});
 		
-		// reply-delete-button 클릭시
 		$(".reply-delete-button").click(function() {
 			const replyId = $(this).attr("data-reply-id");
 			const message = "댓글을 삭제하시겠습니까?";
